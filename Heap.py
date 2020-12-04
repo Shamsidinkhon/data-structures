@@ -2,11 +2,9 @@ class MaxHeap:
     def __init__(self):
         self.tree = []
 
-
     def insert(self, val):
         self.tree.append(val)
         self.sift_up(len(self.tree) - 1)
-
 
     def sift_up(self, index):
         parent = (index - 1) // 2
@@ -16,10 +14,8 @@ class MaxHeap:
             self.tree[parent], self.tree[index] = self.tree[index], self.tree[parent]
         self.sift_up(parent)
 
-
     def get_max(self):
         return self.tree[0] if not self.is_empty() else None
-
 
     def get_size(self):
         return len(self.tree)
@@ -54,26 +50,33 @@ class MaxHeap:
             self.tree.pop()
             self.sift_down(index)
 
-    def heapify(self, input):
-        for i in range(len(input)):
-            left_child = 2 * i + 1
-            if left_child + 1 < len(input) and input[left_child] < input[left_child + 1]:
-                left_child += 1
-            input[left_child], input[i] = input[i], input[left_child]
+    def heapify(self, input_array):
+        self.tree = input_array
+        for i in range(self.get_size() // 2, -1, -1):
+            self.sift_down(i)
+
+    def heap_sort(self, input_array):
+        self.heapify(input_array)
+        sorted_array = []
+        while self.tree:
+            sorted_array.append(self.extract_max())
+        return sorted_array
 
 
 h = MaxHeap()
 # Checking the value at top
-print("Value at top:",h.get_max())
+print("Value at top:", h.get_max())
 # pushing elements into heap
 h.insert(1)
 h.insert(11)
-print("Value at top:",h.get_max())
+print("Value at top:", h.get_max())
 # Deleting the root node
-print("Root popped:",h.extract_max())
+print("Root popped:", h.extract_max())
 h.insert(7)
 h.insert(9)
 h.insert(15)
-print("Value at top:",h.get_max())
-print("Root popped:",h.extract_max())
-print("Value at top:",h.get_max())
+print("Value at top:", h.get_max())
+print("Root popped:", h.extract_max())
+print("Value at top:", h.get_max())
+print("Testing heapify and heap sorting by DESC: Array[54,1,84,2,8,54,77]")
+print(h.heap_sort([54, 1, 84, 2, 8, 54, 77]))
